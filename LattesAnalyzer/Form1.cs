@@ -208,12 +208,12 @@ namespace LattesAnalyzer
 
             });
 
-            // artigos
+            // ************* Artigos ************** \\
             // título artigo
-            //xdoc.Descendants("DADOS-BASICOS-DO-ARTIGO").Select(p => new
             xdoc.Descendants("ARTIGO-PUBLICADO").Select(p => new
             {
                 te = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("TITULO-DO-ARTIGO").Value,
+                // Autores do Artigo
                 ti = p.Descendants("AUTORES").Select(c => new
                 {
                     name = c.Attribute("NOME-COMPLETO-DO-AUTOR").Value,
@@ -227,6 +227,7 @@ namespace LattesAnalyzer
             }).ToList().ForEach(p =>
             {
                 Console.Write("Título: {0}\n", p.te);
+                // obtem o título do artigo
                 p.ti.ForEach(z =>
                 {
                     Console.Write("Nome: {0}\nAutor: {1}\nID Lattes: {2}\n", z.name, z.cit, z.id);
@@ -235,6 +236,7 @@ namespace LattesAnalyzer
 
             });
             // autores artigo
+            /*
             xdoc.Descendants("AUTORES").Select(p => new
             {
                 name = p.Attribute("NOME-COMPLETO-DO-AUTOR").Value,

@@ -19,6 +19,20 @@ namespace LattesAnalyzer
             autores = new List<Autor>();
         }
 
+        public Artigo(string title)
+        {
+            titulo = title;
+            ano = 3000;
+            autores = new List<Autor>();
+        }
+
+        public Artigo(string title, int year)
+        {
+            titulo = title;
+            ano = year;
+            autores = new List<Autor>();
+        }
+
         public void setTitulo(string value)
         {
             this.titulo = value;
