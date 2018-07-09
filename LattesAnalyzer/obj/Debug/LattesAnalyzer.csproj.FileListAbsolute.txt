@@ -1,0 +1,9 @@
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\bin\Debug\LattesAnalyzer.exe.config
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\bin\Debug\LattesAnalyzer.exe
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\bin\Debug\LattesAnalyzer.pdb
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.csprojResolveAssemblyReference.cache
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.Form1.resources
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.Properties.Resources.resources
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.csproj.GenerateResource.Cache
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.exe
+c:\users\magno\documents\visual studio 2013\Projects\LattesAnalyzer\LattesAnalyzer\obj\Debug\LattesAnalyzer.pdb
