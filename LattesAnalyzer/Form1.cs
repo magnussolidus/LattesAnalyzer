@@ -27,6 +27,8 @@ namespace LattesAnalyzer
         }
 
         protected programState curStatus;
+        private List<Autor> autors = new List<Autor>();
+        private List<Artigo> articles = new List<Artigo>();
 
         public Form1()
         {
@@ -53,18 +55,18 @@ namespace LattesAnalyzer
         private void abrirDiretórioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // opens up a modal window to select a directory
-            hideMenu();
             DialogResult result = folderBrowserDialog1.ShowDialog();
             switch (result)
             {
                 case DialogResult.Abort:
                 case DialogResult.Cancel:
                 case DialogResult.No:
-                    setIddleStatus();
+                    //setIddleStatus();
                     break;
                 case DialogResult.OK:
                 case DialogResult.Yes:
                     curStatus = programState.checkingDirectory;
+                    hideMenu();
                     checkDirectory();
                     break;
             }
