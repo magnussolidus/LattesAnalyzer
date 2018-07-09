@@ -60,6 +60,7 @@ namespace LattesAnalyzer
                 case DialogResult.Abort:
                 case DialogResult.Cancel:
                 case DialogResult.No:
+                    setIddleStatus();
                     break;
                 case DialogResult.OK:
                 case DialogResult.Yes:
@@ -143,13 +144,15 @@ namespace LattesAnalyzer
             }
             else 
             { 
-                statusLabel.Text = "Situação: Analisando arquivos, por favor aguarde.";
+                statusLabel.Text = "Situação: Aguardando sua decisão";
                 filesLabel.Text = "Foram encontrados " + ammount + " arquivos.";
+                reset.Text = "Iniciar Análise";
                 cancel.Text = "Cancelar Análise";
                 filesLabel.Show();
                 cancel.Show();
+                reset.Show();
                 // método para verificar os arquivos
-                this.readFiles();
+                //this.readFiles();
 
             }
         }
@@ -270,14 +273,9 @@ namespace LattesAnalyzer
                     p.title);
             });
             */
-            // 0506389215528790
-            // 0561643838450805
-
-
-            // reader.ReadToFollowing("NUMERO-IDENTIFICADOR=");
         }
 
-        // método que lê os arquivos e a rede
+        // método que lê os arquivos e gera a rede
         public void readFiles()
         {
             if(curStatus != programState.checkingFiles)
@@ -300,17 +298,10 @@ namespace LattesAnalyzer
 
         public void setIddleStatus()
         {
-            if(curStatus != programState.iddle)
-            {
-                statusLabel.Text = "Situação: Escolher Diretório";
-                initialHide();
-                this.showMenu();
-                curStatus = programState.iddle;
-            }
-            else
-            {
-                return;
-            }
+            statusLabel.Text = "Situação: Escolher Diretório";
+            initialHide();
+            this.showMenu();
+            curStatus = programState.iddle;
         }
 
         public void setErrorStatus(string msg)
@@ -395,7 +386,14 @@ namespace LattesAnalyzer
 
         private void reset_Click(object sender, EventArgs e)
         {
-            setIddleStatus();
+            if(curStatus == programState.checkingFiles)
+            {
+                this.readFiles();
+            }
+            else if(curStatus == programState.error || curStatus == programState.checkingDirectory)
+            {
+                setIddleStatus();
+            }
         }
 
     }
