@@ -33,6 +33,20 @@ namespace LattesAnalyzer
             autores = new List<Autor>();
         }
 
+        public Artigo(string title, int year, List<Autor> authors)
+        {
+            this.titulo = title;
+            this.ano = year;
+            this.autores = authors;
+        }
+
+        public Artigo(Artigo source)
+        {
+            this.titulo = source.titulo;
+            this.ano = source.ano;
+            this.autores = source.autores;
+        }
+
         public void setTitulo(string value)
         {
             this.titulo = value;
@@ -63,9 +77,28 @@ namespace LattesAnalyzer
             return this.autores;
         }
 
+        public List<Autor> getAutoresAsNew()
+        {
+            List<Autor> temp = new List<Autor>();
+            temp = this.autores;
+            return temp;
+        }
+
         public void addAutor(Autor novo)
         {
             this.autores.Add(novo);
+        }
+
+        public void cleanAutors()
+        {
+            this.autores.Clear();
+        }
+
+        public void Reset()
+        {
+            this.autores.Clear();
+            this.ano = 0;
+            this.titulo = "";
         }
 
     }

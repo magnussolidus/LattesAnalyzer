@@ -183,7 +183,6 @@ namespace LattesAnalyzer
             // video demonstrando um caso de uso -> https://www.youtube.com/watch?v=sfDPdflXbiM
 
             Autor test = new Autor();
-            Artigo helper = new Artigo();
             List<string> tempCitName = new List<string>();
 
             XDocument xdoc = XDocument.Load(filename);
@@ -210,14 +209,15 @@ namespace LattesAnalyzer
                 test.setNacionalidade(p.nat);
 
             });
-            // Adiciona o usuário a lista de usuário a serem processados
+            // Adiciona o usuário a lista de usuários a serem processados
             autors.Add(test);
 
             // ************* Artigos ************** \\
             // título artigo
             xdoc.Descendants("ARTIGO-PUBLICADO").Select(p => new
             {
-                te = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("TITULO-DO-ARTIGO").Value,
+                ta = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("TITULO-DO-ARTIGO").Value,
+                te = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("ANO-DO-ARTIGO").Value,
                 // Autores do Artigo
                 ti = p.Descendants("AUTORES").Select(c => new
                 {
@@ -227,9 +227,11 @@ namespace LattesAnalyzer
                 }).ToList()
             }).ToList().ForEach(p =>
             {
-                //Console.Write("Título: {0}\n", p.te);
-                helper.setTitulo(p.te);
-                // obtem o título do artigo
+                // obtem o título e o ano do artigo
+                //Console.Write("Título: {0}\nAno:{1}\n", p.ta, p.te);
+                Artigo helper = new Artigo(p.ta, int.Parse(p.te));
+                //helper.setTitulo(p.ta);
+                //helper.setAno(int.Parse(p.te));
                 p.ti.ForEach(z =>
                 {
                     //Console.Write("Nome: {0}\nAutor: {1}\nID Lattes: {2}\n", z.name, z.cit, z.id);
@@ -238,8 +240,8 @@ namespace LattesAnalyzer
                     // obtem as informações de cada autor referente àquele artigo
                 });
 
-                // adiciona o artigo a pilha de manuseio
-                articles.Add(helper);
+                articles.Add(helper); // adiciona o artigo à pilha de manuseio
+                //helper.cleanAutors(); // limpa a lista de autores da variável auxiliar
 
             });
         }
@@ -259,14 +261,26 @@ namespace LattesAnalyzer
                 // loop de leitura do arquivo
                 foreach(string path in paths)
                 {
-                    gatherFromFile(folderBrowserDialog1.SelectedPath +"\\"+ path); // testando 
+                    gatherFromFile(folderBrowserDialog1.SelectedPath +"\\"+ path);
                 }
 
-                // TO DO
                 // iniciar o tratamento dos dados e criar a rede. 
+                analyzeData();
+                // TO DO
                 // Aparentemente os artigos que se repetem já não são adicionados a pilha
                 // Calcular o índice de centralidade para cada nó (se o normalizado ficar difícil usar sem normalização)
             }
+        }
+
+        public void analyzeData()
+        {
+            if(curStatus != programState.checkingFiles)
+            {
+                return;
+            }
+
+            int nodeId = 1;
+
         }
 
         public void setIddleStatus()
