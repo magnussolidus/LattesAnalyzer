@@ -262,8 +262,10 @@ namespace LattesAnalyzer
                     gatherFromFile(folderBrowserDialog1.SelectedPath +"\\"+ path); // testando 
                 }
 
+                // TO DO
                 // iniciar o tratamento dos dados e criar a rede. 
-                //Aparentemente os artigos que se repetem já não são adicionados a pilha
+                // Aparentemente os artigos que se repetem já não são adicionados a pilha
+                // Calcular o índice de centralidade para cada nó (se o normalizado ficar difícil usar sem normalização)
             }
         }
 
