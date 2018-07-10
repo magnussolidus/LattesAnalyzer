@@ -1,6 +1,7 @@
 
-LattesAnalyzer/bin/Debug/LattesAnalyzer.exe
-LattesAnalyzer/bin/Debug/LattesAnalyzer.pdb
+LattesAnalyzer/bin/Debug/
 LattesAnalyzer.v12.suo
 .vs/LattesAnalyzer/v15/Server/sqlite3/db.lock
 .vs/LattesAnalyzer/v15/Server/sqlite3/storage.ide
+*.ide-wal
+*.ide-shm
