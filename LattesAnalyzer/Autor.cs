@@ -91,6 +91,11 @@ namespace LattesAnalyzer
             return this.citNome;
         }
 
+        public void addArticle()
+        {
+            this.nArtigos++;
+        }
+
         public void showId()
         {
             Console.WriteLine(this.identificador);
