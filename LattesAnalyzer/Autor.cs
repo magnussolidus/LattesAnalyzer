@@ -22,22 +22,22 @@ namespace LattesAnalyzer
             citNome = new List<String>();
         }
 
-        public Autor(string n, List<string> c)
+        public Autor(string name, List<string> citationName)
         {
-            nome = n;
+            nome = name;
             nacionalidade = "Desconhecida";
             nArtigos = 0;
             identificador = new char[16];
-            citNome = c;
+            citNome = citationName;
         }
 
-        public Autor(string n, List<string> c, char[] id)
+        public Autor(string name, List<string> citationName, char[] id)
         {
-            nome = n;
+            nome = name;
             nacionalidade = "Desconhecida";
             nArtigos = 0;
             identificador = id;
-            citNome = c;
+            citNome = citationName;
         }
 
         public void setNome(string value)

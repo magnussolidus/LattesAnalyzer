@@ -26,9 +26,9 @@ namespace LattesAnalyzer
             finished
         }
 
-        protected programState curStatus;
-        private List<Autor> autors = new List<Autor>();
-        private List<Artigo> articles = new List<Artigo>();
+        protected programState curStatus; // variável de controle sobre o estado do programa
+        private List<Autor> autors = new List<Autor>(); // lista de usuários a serem processados
+        private List<Artigo> articles = new List<Artigo>(); // lista de artigos a serem processados
 
         public Form1()
         {
@@ -153,9 +153,6 @@ namespace LattesAnalyzer
                 filesLabel.Show();
                 cancel.Show();
                 reset.Show();
-                // método para verificar os arquivos
-                //this.readFiles();
-
             }
         }
 
@@ -181,22 +178,22 @@ namespace LattesAnalyzer
             return result;
         }
 
-        private void TestDocument(string filename, Type objType)
+        private void gatherFromFile(string filename)
         {
-            // https://www.youtube.com/watch?v=sfDPdflXbiM
+            // video demonstrando um caso de uso -> https://www.youtube.com/watch?v=sfDPdflXbiM
 
             Autor test = new Autor();
             Artigo helper = new Artigo();
-            List<Artigo> artigos = new List<Artigo>();
+            List<string> tempCitName = new List<string>();
+
             XDocument xdoc = XDocument.Load(filename);
 
-            // id lattes do autor
+            // id lattes do autor (sempre tem no currículo)
             xdoc.Descendants("CURRICULO-VITAE").Select( p => new { 
                 id = p.Attribute("NUMERO-IDENTIFICADOR").Value
             }).ToList().ForEach(p => {
-               // Console.WriteLine("ID: " + p.id);
+                //Console.WriteLine("ID: " + p.id);
                 test.setId(p.id.ToCharArray(0, 16));
-                //test.showId();
             });
 
             // nome do autor e nome em citação, nacionalidade é bonus
@@ -210,8 +207,11 @@ namespace LattesAnalyzer
                 //Console.Write("Nome: {0}\nCitação: {1}\nNatural de: {2}\n", p.name, p.citName, p.nat);
                 test.setNome(p.name);
                 test.setNomeCitacao(p.citName.Split(';').ToList());
+                test.setNacionalidade(p.nat);
 
             });
+            // Adiciona o usuário a lista de usuário a serem processados
+            autors.Add(test);
 
             // ************* Artigos ************** \\
             // título artigo
@@ -225,56 +225,23 @@ namespace LattesAnalyzer
                     cit = c.Attribute("NOME-PARA-CITACAO").Value,
                     id = c.Attribute("NRO-ID-CNPQ").Value
                 }).ToList()
-                //at1 = p.Element("AUTORES").Attribute("NOME-COMPLETO-DO-AUTOR").Value,
-                //cit = p.Element("AUTORES").Attribute("NOME-PARA-CITACAO").Value,
-                //id = p.Element("AUTORES").Attribute("NRO-ID-CNPQ").Value
-                //name = p.Attribute("TITULO-DO-ARTIGO").Value
             }).ToList().ForEach(p =>
             {
-                Console.Write("Título: {0}\n", p.te);
+                //Console.Write("Título: {0}\n", p.te);
+                helper.setTitulo(p.te);
                 // obtem o título do artigo
                 p.ti.ForEach(z =>
                 {
-                    Console.Write("Nome: {0}\nAutor: {1}\nID Lattes: {2}\n", z.name, z.cit, z.id);
+                    //Console.Write("Nome: {0}\nAutor: {1}\nID Lattes: {2}\n", z.name, z.cit, z.id);
+                    tempCitName = z.cit.Split(';').ToList();
+                    helper.addAutor(new Autor(z.name, tempCitName, z.id.ToCharArray()));
+                    // obtem as informações de cada autor referente àquele artigo
                 });
-                //helper.setTitulo(p.name);
+
+                // adiciona o artigo a pilha de manuseio
+                articles.Add(helper);
 
             });
-            // autores artigo
-            /*
-            xdoc.Descendants("AUTORES").Select(p => new
-            {
-                name = p.Attribute("NOME-COMPLETO-DO-AUTOR").Value,
-                cit = p.Attribute("NOME-PARA-CITACAO").Value,
-                id = p.Attribute("NRO-ID-CNPQ").Value
-            }).ToList().ForEach(p =>
-            {
-                //Console.Write("Nome: {0}\nAutor: {1}\nId Autor: {2}\n", p.name, p.cit, p.id);
-
-            });
-
-            // artigos
-            /*
-            xdoc.DescendantNodes();
-            xdoc.Ancestors();
-            xdoc.Descendants("ARTIGOS-PUBLICADOS").Select(p => new
-            {
-                desc = p.Descendants("DADOS-BASICOS-DO-ARTIGO").Select(t => new {
-                    title = t.Attribute("TITULO-DO-ARTIGO").Value
-                }).ToList().ForEach(t => {
-                    Console.Write("Título: {0}\n", t.title);
-                })
-            }).ToList().ForEach(p =>
-            {
-                xdoc.DescendantNodes().ToList().ForEach(d =>
-                    {
-                        Console.Write("Desc: {0}", d.ToString());
-                    });
-                xdoc.Ancestors();
-                Console.Write("Título: {0}\n",
-                    p.title);
-            });
-            */
         }
 
         // método que lê os arquivos e gera a rede
@@ -292,9 +259,11 @@ namespace LattesAnalyzer
                 // loop de leitura do arquivo
                 foreach(string path in paths)
                 {
-
-                    TestDocument(folderBrowserDialog1.SelectedPath +"\\"+ path, typeof(Autor)); // testando 
+                    gatherFromFile(folderBrowserDialog1.SelectedPath +"\\"+ path); // testando 
                 }
+
+                // iniciar o tratamento dos dados e criar a rede. 
+                //Aparentemente os artigos que se repetem já não são adicionados a pilha
             }
         }
 
