@@ -99,7 +99,7 @@ namespace LattesAnalyzer
                 foreach (string currentFile in txtFiles)
                 {
                     string filename = currentFile.Substring(path.Length + 1);
-                    if(filename.LastIndexOf(".xml") != -1)
+                    if (filename.LastIndexOf(".xml") != -1)
                     {
                         total++;
                     }
@@ -108,7 +108,7 @@ namespace LattesAnalyzer
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }   
+            }
             return total;
         }
 
@@ -140,12 +140,12 @@ namespace LattesAnalyzer
 
         public void checkFiles(uint ammount)
         {
-            if(curStatus != programState.checkingFiles)
+            if (curStatus != programState.checkingFiles)
             {
                 return;
             }
-            else 
-            { 
+            else
+            {
                 statusLabel.Text = "Situação: Aguardando sua decisão";
                 filesLabel.Text = "Foram encontrados " + ammount + " arquivos.";
                 reset.Text = "Iniciar Análise";
@@ -165,13 +165,13 @@ namespace LattesAnalyzer
                 foreach (string currentFile in txtFiles)
                 {
                     string filename = currentFile.Substring(path.Length + 1);
-                    if(filename.LastIndexOf(".xml") != -1)
+                    if (filename.LastIndexOf(".xml") != -1)
                     {
                         result.Add(filename);
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -188,9 +188,11 @@ namespace LattesAnalyzer
             XDocument xdoc = XDocument.Load(filename);
 
             // id lattes do autor (sempre tem no currículo)
-            xdoc.Descendants("CURRICULO-VITAE").Select( p => new { 
+            xdoc.Descendants("CURRICULO-VITAE").Select(p => new
+            {
                 id = p.Attribute("NUMERO-IDENTIFICADOR").Value
-            }).ToList().ForEach(p => {
+            }).ToList().ForEach(p =>
+            {
                 //Console.WriteLine("ID: " + p.id);
                 test.setId(p.id.ToCharArray(0, 16));
             });
@@ -249,7 +251,7 @@ namespace LattesAnalyzer
         // método que lê os arquivos e gera a rede
         public void readFiles()
         {
-            if(curStatus != programState.checkingFiles)
+            if (curStatus != programState.checkingFiles)
             {
                 return;
             }
@@ -257,11 +259,11 @@ namespace LattesAnalyzer
             {
                 // verifica e recebe o caminho dos arquivos que devem ser analisados
                 List<String> paths = getValidPaths(folderBrowserDialog1.SelectedPath);
-                
+
                 // loop de leitura do arquivo
-                foreach(string path in paths)
+                foreach (string path in paths)
                 {
-                    gatherFromFile(folderBrowserDialog1.SelectedPath +"\\"+ path);
+                    gatherFromFile(folderBrowserDialog1.SelectedPath + "\\" + path);
                 }
 
                 // iniciar o tratamento dos dados e criar a rede. 
@@ -274,7 +276,7 @@ namespace LattesAnalyzer
 
         public void analyzeData()
         {
-            if(curStatus != programState.checkingFiles)
+            if (curStatus != programState.checkingFiles)
             {
                 return;
             }
@@ -284,9 +286,9 @@ namespace LattesAnalyzer
             List<Node> nodes = new List<Node>();
             List<Edge> edges = new List<Edge>();
 
-            foreach(Autor aut in autors)
+            foreach (Autor aut in autors)
             {
-                //TODO: Verificar o que preencher em DATA
+
                 nodes.Add(new Node(nodeId++, aut));
 
             }
@@ -296,23 +298,29 @@ namespace LattesAnalyzer
                 var distinctCombinations = art.getAutores()
                                               .SelectMany(x => art.getAutores(), (x, y) => Tuple.Create(x, y))  //Cria tuplas
                                               .Where(tuple => tuple.Item1.getNome() != tuple.Item2.getNome())   //Remove duplicatas de autor com ele mesmo
-                                              .Distinct(new UnorderedTupleComparer<Autor>()).ToList()                   //Remove duplicatas de (No1,No2) e (No2,No1)
-                                              ;
+                                              .Distinct(new UnorderedTupleComparer<Autor>()).ToList();          //Remove duplicatas de (No1,No2) e (No2,No1)
 
-                List<Tuple<Autor,Autor>> list = distinctCombinations;
+                List<Tuple<Autor, Autor>> list = distinctCombinations;
 
-                foreach (Tuple<Autor,Autor> pair in distinctCombinations)
+                foreach (Tuple<Autor, Autor> pair in distinctCombinations)
                 {
 
-                    Edge e = new Edge(nodes.Find(n => n.Data == pair.Item1), nodes.Find(n => n.Data == pair.Item2));
-
+                    Node a = nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item1));
+                    Node b = nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item2));
+                    if (a != null && b != null)
+                    {
+                        edges.Add(new Edge(a, b));
+                    }
 
                 }
 
             }
 
+
+            //Nesse pontos, temos todas os Nodes e Edges gerados.
+
         }
-        
+
 
         public void setIddleStatus()
         {
@@ -324,7 +332,7 @@ namespace LattesAnalyzer
 
         public void setErrorStatus(string msg)
         {
-            if(curStatus != programState.error)
+            if (curStatus != programState.error)
             {
                 statusLabel.Text = "Situação: " + msg;
                 filesLabel.Show();
@@ -341,9 +349,9 @@ namespace LattesAnalyzer
         private void programLoop(uint nFiles)
         {
 
-            switch(curStatus)
+            switch (curStatus)
             {
-                case programState.iddle: 
+                case programState.iddle:
                     statusLabel.Text = "Situação: Escolher Diretório";
                     filesLabel.Hide();
                     cancel.Hide();
@@ -353,8 +361,8 @@ namespace LattesAnalyzer
                     statusLabel.Text = "Situação: Verificando Diretório \'" + folderBrowserDialog1.SelectedPath + "\'";
                     // método que verifica a quantidade de arquivos compatíveis no diretório
                     nFiles = countFiles(folderBrowserDialog1.SelectedPath);
-                    
-                    if(nFiles > 0)
+
+                    if (nFiles > 0)
                     {
                         curStatus = programState.checkingFiles;
                         programLoop(nFiles);
@@ -381,7 +389,7 @@ namespace LattesAnalyzer
                     break;
 
                 case programState.error:
-                    switch(nFiles)
+                    switch (nFiles)
                     {
                         case 0:
                             statusLabel.Text = "Situação: Não foram encontrados arquivos compatíveis no local especificado.";
@@ -404,11 +412,11 @@ namespace LattesAnalyzer
 
         private void reset_Click(object sender, EventArgs e)
         {
-            if(curStatus == programState.checkingFiles)
+            if (curStatus == programState.checkingFiles)
             {
                 this.readFiles();
             }
-            else if(curStatus == programState.error || curStatus == programState.checkingDirectory)
+            else if (curStatus == programState.error || curStatus == programState.checkingDirectory)
             {
                 setIddleStatus();
             }
