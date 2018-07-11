@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LattesAnalyzer
 {
@@ -10,7 +11,9 @@ namespace LattesAnalyzer
     public class Edge
     {
         bool directed { get; set; }
+        [XmlAttribute]
         public Node source { get; set; }
+        [XmlAttribute]
         public Node target { get; set; }
 
         public Edge() { }

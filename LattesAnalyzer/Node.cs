@@ -10,10 +10,10 @@ namespace LattesAnalyzer
     [Serializable]
     public class Node
     {
-        
         public object Data { get; set; }
-
+        [XmlAttribute]
         public int id { get; set; }
+        [XmlElement]
         public float centralityIndex { get; set; }
 
         public Node() { }

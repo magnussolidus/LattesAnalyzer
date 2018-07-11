@@ -180,11 +180,8 @@ namespace LattesAnalyzer
 
         private void gatherFromFile(string filename)
         {
-            // video demonstrando um caso de uso -> https://www.youtube.com/watch?v=sfDPdflXbiM
-
             Autor test = new Autor();
             List<string> tempCitName = new List<string>();
-
             XDocument xdoc = XDocument.Load(filename);
 
             // id lattes do autor (sempre tem no currículo)
@@ -193,7 +190,6 @@ namespace LattesAnalyzer
                 id = p.Attribute("NUMERO-IDENTIFICADOR").Value
             }).ToList().ForEach(p =>
             {
-                //Console.WriteLine("ID: " + p.id);
                 test.setId(p.id.ToCharArray(0, 16));
             });
 
@@ -205,7 +201,6 @@ namespace LattesAnalyzer
                 nat = p.Attribute("PAIS-DE-NACIONALIDADE").Value
             }).ToList().ForEach(p =>
             {
-                //Console.Write("Nome: {0}\nCitação: {1}\nNatural de: {2}\n", p.name, p.citName, p.nat);
                 test.setNome(p.name);
                 test.setNomeCitacao(p.citName.Split(';').ToList());
                 test.setNacionalidade(p.nat);
@@ -229,21 +224,14 @@ namespace LattesAnalyzer
                 }).ToList()
             }).ToList().ForEach(p =>
             {
-                // obtem o título e o ano do artigo
-                //Console.Write("Título: {0}\nAno:{1}\n", p.ta, p.te);
                 Artigo helper = new Artigo(p.ta, int.Parse(p.te));
-                //helper.setTitulo(p.ta);
-                //helper.setAno(int.Parse(p.te));
                 p.ti.ForEach(z =>
                 {
-                    //Console.Write("Nome: {0}\nAutor: {1}\nID Lattes: {2}\n", z.name, z.cit, z.id);
                     tempCitName = z.cit.Split(';').ToList();
                     helper.addAutor(new Autor(z.name, tempCitName, z.id.ToCharArray()));
-                    // obtem as informações de cada autor referente àquele artigo
                 });
 
-                articles.Add(helper); // adiciona o artigo à pilha de manuseio
-                //helper.cleanAutors(); // limpa a lista de autores da variável auxiliar
+                articles.Add(helper); // adiciona o artigo à lista de manuseio
 
             });
         }
@@ -268,9 +256,6 @@ namespace LattesAnalyzer
 
                 // iniciar o tratamento dos dados e criar a rede. 
                 analyzeData();
-                // TO DO
-                // Aparentemente os artigos que se repetem já não são adicionados a pilha
-                // Calcular o índice de centralidade para cada nó (se o normalizado ficar difícil usar sem normalização)
             }
         }
 
@@ -319,7 +304,8 @@ namespace LattesAnalyzer
                 }
             }
 
-            graph.export("teste");
+            graph.calCentralityIndexForEachNode(false); // calcula o índice de centralidade normalizado para grafo não direcionado
+            graph.export("teste"); //, folderBrowserDialog1.SelectedPath);
             
         }
 
