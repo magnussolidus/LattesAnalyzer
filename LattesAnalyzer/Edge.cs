@@ -8,17 +8,18 @@ using System.Xml.Serialization;
 namespace LattesAnalyzer
 {
     [Serializable]
-    public class Edge
+    public class edge
     {
+        [XmlIgnore]
         bool directed { get; set; }
         [XmlAttribute]
-        public Node source { get; set; }
+        public int source { get; set; }
         [XmlAttribute]
-        public Node target { get; set; }
+        public int target { get; set; }
 
-        public Edge() { }
+        public edge() { }
 
-        public Edge(Node sourceNode, Node targetNode)
+        public edge(int sourceNode, int targetNode)
         {
             directed = false;
             source = sourceNode;

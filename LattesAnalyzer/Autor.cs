@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LattesAnalyzer
 {
     [Serializable]
     public class Autor
     {
-        string nome, nacionalidade; 
+        [XmlAttribute]
+        string nome, nacionalidade;
+        [XmlAttribute]
         int nArtigos;
+        [XmlElement]
         char[] identificador;
         List<String> citNome;
         

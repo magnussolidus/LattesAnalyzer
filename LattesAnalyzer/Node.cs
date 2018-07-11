@@ -8,20 +8,20 @@ using System.Xml.Serialization;
 namespace LattesAnalyzer
 {
     [Serializable]
-    public class Node
+    public class node
     {
-        public object Data { get; set; }
+        public Autor data { get; set; }
         [XmlAttribute]
         public int id { get; set; }
         [XmlElement]
         public float centralityIndex { get; set; }
 
-        public Node() { }
+        public node() { }
 
-        public Node(int id, object Data)
+        public node(int id, Autor Data)
         {
             this.id = id;
-            this.Data = Data;
+            this.data = Data;
             this.centralityIndex = 0.0f;
         }
 

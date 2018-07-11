@@ -29,6 +29,7 @@ namespace LattesAnalyzer
         protected programState curStatus; // variável de controle sobre o estado do programa
         private List<Autor> autors = new List<Autor>(); // lista de usuários a serem processados
         private List<Artigo> articles = new List<Artigo>(); // lista de artigos a serem processados
+        private graphml myGraph = new graphml(); // armazena o grafo gerado após a análise
 
         public Form1()
         {
@@ -40,6 +41,8 @@ namespace LattesAnalyzer
             statusLabel.Text += "Escolher diretório";
             initialHide();
             curStatus = programState.iddle;
+            saveFileDialog1.Filter = "GraphML File Format (*.graphml) | *.graphml";
+            saveFileDialog1.AddExtension = true;
         }
 
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)
@@ -76,8 +79,19 @@ namespace LattesAnalyzer
         private void initialHide()
         {
             filesLabel.Hide();
+            salvarToolStripMenuItem.Enabled = false;
             cancel.Hide();
             reset.Hide();
+        }
+
+        private void updateFileMenu()
+        {
+            curStatus = programState.finished;
+            salvarToolStripMenuItem.Enabled = true;
+            statusLabel.Text = "Situação: Análise Completa!\n\nVocê pode salvá-la através do menu.";
+            statusLabel.Show();
+            reset.Text = "Reiniciar";
+            reset.Show();
         }
 
         private void hideMenu()
@@ -245,6 +259,7 @@ namespace LattesAnalyzer
             }
             else
             {
+                statusLabel.Text = "Status: Lendo arquivos.";
                 // verifica e recebe o caminho dos arquivos que devem ser analisados
                 List<String> paths = getValidPaths(folderBrowserDialog1.SelectedPath);
 
@@ -265,16 +280,18 @@ namespace LattesAnalyzer
             {
                 return;
             }
-
+            
+            initialHide();
+            statusLabel.Text = "Status: Analisando Dados.";
             int nodeId = 1;
 
 
-            Graphml graph = new Graphml();
+            graphml graph = new graphml();
 
             foreach (Autor aut in autors)
             {
 
-                graph.nodes.Add(new Node(nodeId++, aut));
+                graph.nodes.Add(new node(nodeId++, aut));
 
             }
 
@@ -290,32 +307,33 @@ namespace LattesAnalyzer
                 foreach (Tuple<Autor, Autor> pair in distinctCombinations)
                 {
 
-                    Node a = graph.nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item1));
-                    Node b = graph.nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item2));
+                    node a = graph.nodes.Find(n => Autor.comparaAutor(n.data as Autor, pair.Item1));
+                    node b = graph.nodes.Find(n => Autor.comparaAutor(n.data as Autor, pair.Item2));
                     if (a != null && b != null)
                     {
-                        Edge e1 = graph.edges.Find(x => x.source == a && x.target == b);
-                        Edge e2 = graph.edges.Find(x => x.target == a && x.source == b);
+                        edge e1 = graph.edges.Find(x => x.source == a.id && x.target == b.id);
+                        edge e2 = graph.edges.Find(x => x.target == a.id && x.source == b.id);
                         if (e1 == null && e2==null)
                         {
-                            graph.edges.Add(new Edge(a, b));
+                            graph.edges.Add(new edge(a.id, b.id));
                         }
                     }
                 }
             }
 
             graph.calCentralityIndexForEachNode(false); // calcula o índice de centralidade normalizado para grafo não direcionado
-            graph.export("teste"); //, folderBrowserDialog1.SelectedPath);
+            myGraph = graph;
+            this.updateFileMenu(); // atualiza as informação para o usuário na UI e libera o menu de salvar.
             
         }
 
 
         public void setIddleStatus()
         {
+            curStatus = programState.iddle;
             statusLabel.Text = "Situação: Escolher Diretório";
             initialHide();
             this.showMenu();
-            curStatus = programState.iddle;
         }
 
         public void setErrorStatus(string msg)
@@ -404,11 +422,28 @@ namespace LattesAnalyzer
             {
                 this.readFiles();
             }
-            else if (curStatus == programState.error || curStatus == programState.checkingDirectory)
+            else if (curStatus == programState.error || curStatus == programState.checkingDirectory || curStatus == programState.finished)
             {
                 setIddleStatus();
             }
         }
 
+        private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = saveFileDialog1.ShowDialog();
+            switch (result)
+            {
+                case DialogResult.Abort:
+                case DialogResult.Cancel:
+                case DialogResult.No:
+                    break;
+                case DialogResult.OK:
+                case DialogResult.Yes:
+                    curStatus = programState.finished;
+                    myGraph.export(saveFileDialog1.FileName);
+                    break;
+            }
+
+        }
     }
 }
