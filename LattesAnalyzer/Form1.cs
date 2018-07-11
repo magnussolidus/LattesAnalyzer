@@ -318,7 +318,7 @@ namespace LattesAnalyzer
 
 
             //Nesse ponto, temos todas os Nodes e Edges gerados.
-
+            graph.calCentralityIndexForEachNode();
         }
 
 
