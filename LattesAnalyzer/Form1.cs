@@ -302,6 +302,7 @@ namespace LattesAnalyzer
 
                 List<Tuple<Autor, Autor>> list = distinctCombinations;
 
+
                 foreach (Tuple<Autor, Autor> pair in distinctCombinations)
                 {
 
