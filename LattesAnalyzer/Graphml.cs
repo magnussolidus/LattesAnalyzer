@@ -11,8 +11,8 @@ namespace LattesAnalyzer
     {
 
         bool directedEdges;
-        List<Node> nodes;
-        List<Edge> edges;
+        public List<Node> nodes;
+        public List<Edge> edges;
 
         public Graphml()
         {

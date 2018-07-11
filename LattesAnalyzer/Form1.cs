@@ -283,13 +283,13 @@ namespace LattesAnalyzer
 
             int nodeId = 1;
 
-            List<Node> nodes = new List<Node>();
-            List<Edge> edges = new List<Edge>();
 
+            Graphml graph = new Graphml();
+            
             foreach (Autor aut in autors)
             {
 
-                nodes.Add(new Node(nodeId++, aut));
+                graph.nodes.Add(new Node(nodeId++, aut));
 
             }
 
@@ -305,11 +305,11 @@ namespace LattesAnalyzer
                 foreach (Tuple<Autor, Autor> pair in distinctCombinations)
                 {
 
-                    Node a = nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item1));
-                    Node b = nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item2));
+                    Node a = graph.nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item1));
+                    Node b = graph.nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item2));
                     if (a != null && b != null)
                     {
-                        edges.Add(new Edge(a, b));
+                        graph.edges.Add(new Edge(a, b));
                     }
 
                 }
@@ -317,7 +317,7 @@ namespace LattesAnalyzer
             }
 
 
-            //Nesse pontos, temos todas os Nodes e Edges gerados.
+            //Nesse ponto, temos todas os Nodes e Edges gerados.
 
         }
 
