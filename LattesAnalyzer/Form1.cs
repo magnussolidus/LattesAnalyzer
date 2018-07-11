@@ -86,6 +86,17 @@ namespace LattesAnalyzer
 
         private void updateFileMenu()
         {
+            listView1.View = View.Details;
+            listView1.Columns.Add("Name");
+            listView1.Columns.Add("Centralidade");
+            
+            listView1.GridLines = true;
+
+
+            myGraph.nodes.ForEach(x => listView1.Items.Add(new ListViewItem(new string[] { x.data.getNome(), x.centralityIndex.ToString() })));
+           
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[0].Width = 400;
             curStatus = programState.finished;
             salvarToolStripMenuItem.Enabled = true;
             statusLabel.Text = "Situação: Análise Completa!\n\nVocê pode salvá-la através do menu.";
