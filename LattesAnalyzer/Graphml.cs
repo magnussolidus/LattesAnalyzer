@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LattesAnalyzer
 {
     [Serializable]
-    class Graphml
+    public class Graphml
     {
 
         bool directedEdges;
@@ -41,5 +44,29 @@ namespace LattesAnalyzer
             }
         }
 
+        public void export(string name)
+        {
+            try
+            {
+                if(!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\"));
+                }
+
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\" + name + ".graphml");
+               
+                using (Stream outputStream = File.Create(path))
+                {
+                    XmlSerializer formatter = new XmlSerializer(typeof(Graphml));
+                    formatter.Serialize(outputStream, this);
+
+                }             
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+        }
     }
 }

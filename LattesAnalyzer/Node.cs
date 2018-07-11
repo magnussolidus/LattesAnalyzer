@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace LattesAnalyzer
 {
-    class Node
+    [Serializable]
+    public class Node
     {
         public object Data { get; set; }
         public int id { get; set; }

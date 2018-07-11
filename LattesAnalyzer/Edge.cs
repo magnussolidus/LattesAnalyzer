@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace LattesAnalyzer
 {
-    class Edge
+    [Serializable]
+    public class Edge
     {
         bool directed { get; set; }
         public Node source { get; set; }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace LattesAnalyzer
 {
+    [Serializable]
     public class Autor
     {
         string nome, nacionalidade; 

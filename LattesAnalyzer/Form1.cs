@@ -301,8 +301,7 @@ namespace LattesAnalyzer
                                               .Distinct(new UnorderedTupleComparer<Autor>()).ToList();          //Remove duplicatas de (No1,No2) e (No2,No1)
 
                 List<Tuple<Autor, Autor>> list = distinctCombinations;
-
-
+                
                 foreach (Tuple<Autor, Autor> pair in distinctCombinations)
                 {
 
@@ -319,6 +318,8 @@ namespace LattesAnalyzer
                     }
                 }
             }
+
+            graph.export("teste");
             
         }
 
