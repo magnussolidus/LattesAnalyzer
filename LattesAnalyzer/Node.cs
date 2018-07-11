@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LattesAnalyzer
 {
     [Serializable]
     public class Node
     {
+        
         public object Data { get; set; }
+
         public int id { get; set; }
         public float centralityIndex { get; set; }
+
+        public Node() { }
 
         public Node(int id, object Data)
         {

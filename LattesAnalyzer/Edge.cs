@@ -13,6 +13,8 @@ namespace LattesAnalyzer
         public Node source { get; set; }
         public Node target { get; set; }
 
+        public Edge() { }
+
         public Edge(Node sourceNode, Node targetNode)
         {
             directed = false;

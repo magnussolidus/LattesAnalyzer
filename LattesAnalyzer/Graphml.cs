@@ -38,7 +38,7 @@ namespace LattesAnalyzer
         {
             int totalNodes = nodes.Count;
 
-            foreach(Node calc in nodes)
+            foreach (Node calc in nodes)
             {
                 calc.centralityIndex = this.edges.Count / (totalNodes - 1);
             }
@@ -48,19 +48,21 @@ namespace LattesAnalyzer
         {
             try
             {
-                if(!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\")))
+                if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\")))
                 {
                     Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\"));
                 }
 
                 string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"LattesAnalyzer\" + name + ".graphml");
-               
+
                 using (Stream outputStream = File.Create(path))
                 {
-                    XmlSerializer formatter = new XmlSerializer(typeof(Graphml));
+
+                    var knownTypes = new Type[] { typeof(Autor) };
+                    XmlSerializer formatter = new XmlSerializer(typeof(Graphml), knownTypes);
                     formatter.Serialize(outputStream, this);
 
-                }             
+                }
 
             }
             catch (Exception e)
