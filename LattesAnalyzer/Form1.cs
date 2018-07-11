@@ -27,6 +27,7 @@ namespace LattesAnalyzer
         }
 
         protected programState curStatus; // variável de controle sobre o estado do programa
+        protected bool running = false; // variável auxiliar para evitar execução duplicada
         private List<Autor> autors = new List<Autor>(); // lista de usuários a serem processados
         private List<Artigo> articles = new List<Artigo>(); // lista de artigos a serem processados
 
@@ -249,7 +250,7 @@ namespace LattesAnalyzer
         // método que lê os arquivos e gera a rede
         public void readFiles()
         {
-            if(curStatus != programState.checkingFiles)
+            if(curStatus != programState.checkingFiles || running)
             {
                 return;
             }
@@ -267,7 +268,6 @@ namespace LattesAnalyzer
                 // iniciar o tratamento dos dados e criar a rede. 
                 analyzeData();
                 // TO DO
-                // Aparentemente os artigos que se repetem já não são adicionados a pilha
                 // Calcular o índice de centralidade para cada nó (se o normalizado ficar difícil usar sem normalização)
             }
         }
@@ -337,7 +337,7 @@ namespace LattesAnalyzer
             }
         }
 
-        // método que controla a execução do programa
+        // DEPRECATED - método que controla a execução do programa
         private void programLoop(uint nFiles)
         {
 
@@ -406,6 +406,7 @@ namespace LattesAnalyzer
         {
             if(curStatus == programState.checkingFiles)
             {
+                running = true;
                 this.readFiles();
             }
             else if(curStatus == programState.error || curStatus == programState.checkingDirectory)
