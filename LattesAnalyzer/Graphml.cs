@@ -31,5 +31,15 @@ namespace LattesAnalyzer
             edges.Add(new Edge(sourceNode, targetNode));
         }
 
+        public void calCentralityIndexForEachNode()
+        {
+            int totalNodes = nodes.Count;
+
+            foreach(Node calc in nodes)
+            {
+                calc.centralityIndex = this.edges.Count / (totalNodes - 1);
+            }
+        }
+
     }
 }
