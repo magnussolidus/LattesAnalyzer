@@ -281,7 +281,38 @@ namespace LattesAnalyzer
 
             int nodeId = 1;
 
+            List<Node> nodes = new List<Node>();
+            List<Edge> edges = new List<Edge>();
+
+            foreach(Autor aut in autors)
+            {
+                //TODO: Verificar o que preencher em DATA
+                nodes.Add(new Node(nodeId++, aut));
+
+            }
+
+            foreach (Artigo art in articles)
+            {
+                var distinctCombinations = art.getAutores()
+                                              .SelectMany(x => art.getAutores(), (x, y) => Tuple.Create(x, y))  //Cria tuplas
+                                              .Where(tuple => tuple.Item1.getNome() != tuple.Item2.getNome())   //Remove duplicatas de autor com ele mesmo
+                                              .Distinct(new UnorderedTupleComparer<Autor>()).ToList()                   //Remove duplicatas de (No1,No2) e (No2,No1)
+                                              ;
+
+                List<Tuple<Autor,Autor>> list = distinctCombinations;
+
+                foreach (Tuple<Autor,Autor> pair in distinctCombinations)
+                {
+
+                    Edge e = new Edge(nodes.Find(n => n.Data == pair.Item1), nodes.Find(n => n.Data == pair.Item2));
+
+
+                }
+
+            }
+
         }
+        
 
         public void setIddleStatus()
         {

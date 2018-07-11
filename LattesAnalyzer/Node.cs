@@ -8,8 +8,8 @@ namespace LattesAnalyzer
 {
     class Node
     {
-        object Data { get; set; }
-        int id { get; set; }
+        public object Data { get; set; }
+        public int id { get; set; }
 
         public Node(int id, object Data)
         {
