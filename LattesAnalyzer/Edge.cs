@@ -9,8 +9,8 @@ namespace LattesAnalyzer
     class Edge
     {
         bool directed { get; set; }
-        Node source { get; set; }
-        Node target { get; set; }
+        public Node source { get; set; }
+        public Node target { get; set; }
 
         public Edge(Node sourceNode, Node targetNode)
         {

@@ -285,7 +285,7 @@ namespace LattesAnalyzer
 
 
             Graphml graph = new Graphml();
-            
+
             foreach (Autor aut in autors)
             {
 
@@ -309,15 +309,32 @@ namespace LattesAnalyzer
                     Node b = graph.nodes.Find(n => Autor.comparaAutor(n.Data as Autor, pair.Item2));
                     if (a != null && b != null)
                     {
-                        graph.edges.Add(new Edge(a, b));
+                        Edge e1 = graph.edges.Find(x => x.source == a && x.target == b);
+                        Edge e2 = graph.edges.Find(x => x.target == a && x.source == b);
+                        if (e1 == null && e2==null)
+                        {
+                            graph.edges.Add(new Edge(a, b));
+                        }
                     }
-
                 }
-
             }
 
 
-            //Nesse ponto, temos todas os Nodes e Edges gerados.
+            //Calculo cent
+            foreach (Node no in graph.nodes)
+            {
+                int count = 0;
+                foreach (Edge e in graph.edges)
+                {
+                    if (e.source.Equals(no) || e.target.Equals(no))
+                    {
+
+                    }
+
+                }
+                Double cent = 0;
+            }
+
 
         }
 
