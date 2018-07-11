@@ -83,7 +83,13 @@ namespace LattesAnalyzer
         public void setId(char[] value)
         {
             if(value.Length == 16)
+            { 
                 this.identificador = value;
+            }
+            else
+            {
+                this.identificador = new char[0];
+            }
         }
 
         public void setNomeCitacao(List<string> value)

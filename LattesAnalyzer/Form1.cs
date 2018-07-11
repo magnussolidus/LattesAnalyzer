@@ -198,56 +198,64 @@ namespace LattesAnalyzer
             List<string> tempCitName = new List<string>();
             XDocument xdoc = XDocument.Load(filename);
 
-            // id lattes do autor (sempre tem no currículo)
-            xdoc.Descendants("CURRICULO-VITAE").Select(p => new
+            try
             {
-                id = p.Attribute("NUMERO-IDENTIFICADOR").Value
-            }).ToList().ForEach(p =>
-            {
-                test.setId(p.id.ToCharArray(0, 16));
-            });
-
-            // nome do autor e nome em citação, nacionalidade é bonus
-            xdoc.Descendants("DADOS-GERAIS").Select(p => new
-            {
-                name = p.Attribute("NOME-COMPLETO").Value,
-                citName = p.Attribute("NOME-EM-CITACOES-BIBLIOGRAFICAS").Value,
-                nat = p.Attribute("PAIS-DE-NACIONALIDADE").Value
-            }).ToList().ForEach(p =>
-            {
-                test.setNome(p.name);
-                test.setNomeCitacao(p.citName.Split(';').ToList());
-                test.setNacionalidade(p.nat);
-
-            });
-            // Adiciona o usuário a lista de usuários a serem processados
-            autors.Add(test);
-
-            // ************* Artigos ************** \\
-            // título artigo
-            xdoc.Descendants("ARTIGO-PUBLICADO").Select(p => new
-            {
-                ta = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("TITULO-DO-ARTIGO").Value,
-                te = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("ANO-DO-ARTIGO").Value,
-                // Autores do Artigo
-                ti = p.Descendants("AUTORES").Select(c => new
+                // id lattes do autor (sempre tem no currículo)
+                xdoc.Descendants("CURRICULO-VITAE").Select(p => new
                 {
-                    name = c.Attribute("NOME-COMPLETO-DO-AUTOR").Value,
-                    cit = c.Attribute("NOME-PARA-CITACAO").Value,
-                    id = c.Attribute("NRO-ID-CNPQ").Value
-                }).ToList()
-            }).ToList().ForEach(p =>
-            {
-                Artigo helper = new Artigo(p.ta, int.Parse(p.te));
-                p.ti.ForEach(z =>
+                    id = p.Attribute("NUMERO-IDENTIFICADOR").Value
+                }).ToList().ForEach(p =>
                 {
-                    tempCitName = z.cit.Split(';').ToList();
-                    helper.addAutor(new Autor(z.name, tempCitName, z.id.ToCharArray()));
+                    if (p.id != "")
+                        test.setId(p.id.ToCharArray(0, 16));
                 });
 
-                articles.Add(helper); // adiciona o artigo à lista de manuseio
+                // nome do autor e nome em citação, nacionalidade é bonus
+                xdoc.Descendants("DADOS-GERAIS").Select(p => new
+                {
+                    name = p.Attribute("NOME-COMPLETO").Value,
+                    citName = p.Attribute("NOME-EM-CITACOES-BIBLIOGRAFICAS").Value,
+                    nat = p.Attribute("PAIS-DE-NACIONALIDADE").Value
+                }).ToList().ForEach(p =>
+                {
+                    test.setNome(p.name);
+                    test.setNomeCitacao(p.citName.Split(';').ToList());
+                    test.setNacionalidade(p.nat);
 
-            });
+                });
+                // Adiciona o usuário a lista de usuários a serem processados
+                autors.Add(test);
+
+                // ************* Artigos ************** \\
+                // título artigo
+                xdoc.Descendants("ARTIGO-PUBLICADO").Select(p => new
+                {
+                    ta = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("TITULO-DO-ARTIGO").Value,
+                    te = p.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("ANO-DO-ARTIGO").Value,
+                    // Autores do Artigo
+                    ti = p.Descendants("AUTORES").Select(c => new
+                    {
+                        name = c.Attribute("NOME-COMPLETO-DO-AUTOR").Value,
+                        cit = c.Attribute("NOME-PARA-CITACAO").Value,
+                        id = c.Attribute("NRO-ID-CNPQ").Value
+                    }).ToList()
+                }).ToList().ForEach(p =>
+                {
+                    Artigo helper = new Artigo(p.ta, int.Parse(p.te));
+                    p.ti.ForEach(z =>
+                    {
+                        tempCitName = z.cit.Split(';').ToList();
+                        helper.addAutor(new Autor(z.name, tempCitName, z.id.ToCharArray()));
+                    });
+
+                    articles.Add(helper); // adiciona o artigo à lista de manuseio
+
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         // método que lê os arquivos e gera a rede
@@ -309,7 +317,7 @@ namespace LattesAnalyzer
 
                     node a = graph.nodes.Find(n => Autor.comparaAutor(n.data as Autor, pair.Item1));
                     node b = graph.nodes.Find(n => Autor.comparaAutor(n.data as Autor, pair.Item2));
-                    if (a != null && b != null)
+                    if (a != null && b != null && a != b)
                     {
                         edge e1 = graph.edges.Find(x => x.source == a.id && x.target == b.id);
                         edge e2 = graph.edges.Find(x => x.target == a.id && x.source == b.id);
