@@ -318,24 +318,7 @@ namespace LattesAnalyzer
                     }
                 }
             }
-
-
-            //Calculo cent
-            foreach (Node no in graph.nodes)
-            {
-                int count = 0;
-                foreach (Edge e in graph.edges)
-                {
-                    if (e.source.Equals(no) || e.target.Equals(no))
-                    {
-
-                    }
-
-                }
-                Double cent = 0;
-            }
-
-
+            
         }
 
 
