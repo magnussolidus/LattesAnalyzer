@@ -1,0 +1,11 @@
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/bin/Release/LattesAnalyzer.exe.config
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/bin/Release/LattesAnalyzer.exe
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/bin/Release/LattesAnalyzer.pdb
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.csprojResolveAssemblyReference.cache
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.Form1.resources
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.Properties.Resources.resources
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.csproj.GenerateResource.Cache
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.exe
+C:/Users/Magno/Documents/GitHub/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.pdb
+/home/magnussolidus/source/repos/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.exe
+/home/magnussolidus/source/repos/LattesAnalyzer/LattesAnalyzer/obj/Release/LattesAnalyzer.pdb

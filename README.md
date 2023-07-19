@@ -22,6 +22,10 @@ No momento, há a implementação de um indicador de índice de centralidade nor
 Este software, em sua versão atual, utiliza [.NET Frameworks 4.5](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net45).
 Para salvar o resultado das análises em um arquivo de formato [GraphML](http://graphml.graphdrawing.org/) é necessário executar o software com permissões de administrador.
 
+# Licença
+
+Este projeto utiliza a licença [GNU GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). Uma cópia do texto da licença, em inglês, está disponível [aqui](Licença/license.md).
+
 # Versões
 
 Este repositório sempre disponibilizará a versão mais recente e estável do sistema.
@@ -36,6 +40,10 @@ Caso você não queira gerar os próprios binários, você pode efeturar o donwl
 
 - v0.1 - (estável) - [Download aqui](https://github.com/magnussolidus/LattesAnalyzer/blob/master/Lattes%20Analyzer%20Release%20v0.0.1.rar)
 
+# Datasets de Exemplo
+
+Como dataset de exemplo, são fornecidos os dados do CV Lattes dos Docentes do [Instituto de Computação](https://www.ic.uff.br/) da [Universidade Federal Fluminense](http://www.uff.br/) na seção [Datasets de Exemplo](Datasets%20de%20Exemplo).
+
 # Melhorias Futuras
 
 Aqui há uma lista de recursos e funcionalidades que incrementariam a funcionalidade do sistema:
@@ -46,7 +54,7 @@ Aqui há uma lista de recursos e funcionalidades que incrementariam a funcionali
 - [ ] Adicionar um filtro de seleção de intervalo de tempo;
 - [ ] Oferecer suporte à multiplataforma;
 - [ ] Consolidar o repositório de desenvolvimento;
-- [ ] Atualizar a licença para uma licença mais permissiva;
+- [x] Atualizar a licença para uma licença mais permissiva;
 
 # Histórico de Desenvolvimento
 
