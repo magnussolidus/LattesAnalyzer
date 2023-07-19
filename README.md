@@ -38,7 +38,7 @@ Caso você tenha interesse em contribuir com o projeto, entre em contato com os 
 
 Caso você não queira gerar os próprios binários, você pode efeturar o donwload de um arquivo compactado (`.rar`) na listagem a seguir: 
 
-- v0.1 - (estável) - [Download aqui](https://github.com/magnussolidus/LattesAnalyzer/blob/master/Lattes%20Analyzer%20Release%20v0.0.1.rar)
+- v0.1 - (estável) - [Download aqui](Releases/v0.1/Lattes%20Analyzer%20Release%20v0.0.1.rar)
 
 # Datasets de Exemplo
 
