@@ -1,3 +1,11 @@
+# IMPORTANTE!!!
+
+Este repositório foi depreciado, todo o desenvolvimento agora está consolidado no repositório do GitLab para este projeto.
+
+Você pode acessá-lo através [deste link](https://gitlab.com/magnussolidus/lattesanalyzer): https://gitlab.com/magnussolidus/lattesanalyzer
+
+___
+
 # LattesAnalyzer
 
 ### Este software foi desenvolvido com a finalidade de gerar visualizações para que análises possam ser feitas a respeito dos dados de entrada de maneira mais intuitiva.
@@ -53,7 +61,7 @@ Aqui há uma lista de recursos e funcionalidades que incrementariam a funcionali
 - [ ] Adicionar novos indicadores;
 - [ ] Adicionar um filtro de seleção de intervalo de tempo;
 - [ ] Oferecer suporte à multiplataforma;
-- [ ] Consolidar o repositório de desenvolvimento;
+- [x] Consolidar o repositório de desenvolvimento;
 - [x] Atualizar a licença para uma licença mais permissiva;
 
 # Histórico de Desenvolvimento
